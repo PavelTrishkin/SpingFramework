@@ -14,6 +14,9 @@ public class WeaponImpl implements Weapon {
     @Value("false")
     private boolean empty;
 
+    public WeaponImpl() {;
+    }
+
     public WeaponImpl(Ammunition ammunition) {
         this.ammunition = ammunition;
     }
@@ -27,7 +30,7 @@ public class WeaponImpl implements Weapon {
         ammunition.reload();
     }
 
-    @Autowired
+    @Autowired(required = false)
     @Qualifier("liveCartridge")
     public void setAmmunition(Ammunition ammunition) {
         this.ammunition = ammunition;
