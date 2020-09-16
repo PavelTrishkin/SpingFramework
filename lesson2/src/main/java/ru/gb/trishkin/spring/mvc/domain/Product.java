@@ -1,11 +1,21 @@
 package ru.gb.trishkin.spring.mvc.domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "title")
     private String title;
-    private Double price;
+
+    @Column(name = "price")
+    private double price;
 
     public Product() {
     }
@@ -40,20 +50,20 @@ public class Product {
         this.price = price;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Product product = (Product) obj;
-        return Objects.equals(id, product.id) &&
-                Objects.equals(title, product.title) &&
-                Objects.equals(price, product.price);
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) return true;
+//        if (obj == null || getClass() != obj.getClass()) return false;
+//        Product product = (Product) obj;
+//        return Objects.equals(id, product.id) &&
+//                Objects.equals(title, product.title) &&
+//                Objects.equals(price, product.price);
+//    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, price);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, title, price);
+//    }
 
     @Override
     public String toString() {
