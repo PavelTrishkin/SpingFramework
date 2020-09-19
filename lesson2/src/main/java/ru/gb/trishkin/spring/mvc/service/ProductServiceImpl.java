@@ -1,12 +1,15 @@
 package ru.gb.trishkin.spring.mvc.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gb.trishkin.spring.mvc.domain.Product;
 import ru.gb.trishkin.spring.mvc.repository.ProductRepo;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl {
@@ -16,28 +19,40 @@ public class ProductServiceImpl {
         this.productRepo = productRepo;
     }
 
+    @Transactional(readOnly = true)
     public Product getProductById(Long id) {
-        return productRepo.getProductById(id);
+        return productRepo.findProductById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Product> getAllProduct() {
-        List<Product> products = productRepo.getAllProduct();
-        products.sort(Comparator.comparingLong(Product::getId));
-        return products;
+        return productRepo.findAll();
     }
 
-    public List<Product> getProductByPrice(Double starPrice, Double endPrice) {
-        return productRepo.getAllProduct().stream()
-                .filter(product -> product.getPrice() >= starPrice && product.getPrice() <= endPrice)
-                .sorted(Comparator.comparingDouble(Product::getPrice))
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public List<Product> getProductByPrice(Double startPrice, Double endPrice) {
+        return productRepo.findProductsByPriceBetween(startPrice, endPrice);
     }
 
+    @Transactional
+    public  Page<Product> getProductDescSort(){
+        Pageable pageable = PageRequest.of(0,5, Sort.by("price").descending());
+        return productRepo.findAll(pageable);
+    }
+
+    @Transactional
+    public  Page<Product> getProductAscSort(){
+        Pageable pageable = PageRequest.of(0,5, Sort.by("price").ascending());
+        return productRepo.findAll(pageable);
+    }
+
+    @Transactional
     public Product createProduct(Product product){
-        return productRepo.createProduct(product);
+        return productRepo.save(product);
     }
 
+    @Transactional
     public void removeProduct(Long id){
-        productRepo.removeProduct(id);
+        productRepo.deleteById(id);
     }
 }

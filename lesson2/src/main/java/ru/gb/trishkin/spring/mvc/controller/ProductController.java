@@ -1,16 +1,20 @@
 package ru.gb.trishkin.spring.mvc.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.trishkin.spring.mvc.domain.Product;
 import ru.gb.trishkin.spring.mvc.service.ProductServiceImpl;
 
+import javax.persistence.ManyToOne;
 import java.util.List;
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
+
     private final ProductServiceImpl productService;
 
     public ProductController(ProductServiceImpl productService) {
@@ -30,6 +34,21 @@ public class ProductController {
         model.addAttribute("product",
                 byId == null ? new Product(): byId);
         return "product";
+    }
+
+//    @RequestMapping(name = "/desc", method = RequestMethod.GET)
+    @GetMapping("/desc")
+    private String getByMaxPrice(Model model){
+        Page<Product> allProducts = productService.getProductDescSort();
+        model.addAttribute("products", allProducts);
+        return "desc-product";
+    }
+
+    @GetMapping("/asc")
+    private String getByMinPrice(Model model){
+        Page<Product> allProducts = productService.getProductAscSort();
+        model.addAttribute("products", allProducts);
+        return "desc-product";
     }
 
     @GetMapping("/new")
