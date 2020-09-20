@@ -19,7 +19,6 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories("ru.gb.trishkin.spring.mvc.repository")
 @EnableTransactionManagement
-@ComponentScan("ru.gb.trishkin.spring.mvc")
 public class SpringDataConfig {
 
     @Bean(name="dataSource")
