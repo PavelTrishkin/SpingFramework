@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.gb.trishkin.spring.mvc.domain.Product;
 import ru.gb.trishkin.spring.mvc.repository.ProductRepo;
 
-import java.util.List;
-
 @Service
 public class ProductServiceImpl {
     private ProductRepo productRepo;
@@ -20,39 +18,26 @@ public class ProductServiceImpl {
     }
 
     @Transactional(readOnly = true)
-    public Product getProductById(Long id) {
-        return productRepo.findProductById(id);
+    public Product findById(Long id) {
+        return productRepo.findById(id).orElse(null);
     }
 
     @Transactional(readOnly = true)
-    public List<Product> getAllProduct() {
-        return productRepo.findAll();
-    }
-
-    @Transactional(readOnly = true)
-    public List<Product> getProductByPrice(Double startPrice, Double endPrice) {
-        return productRepo.findProductsByPriceBetween(startPrice, endPrice);
-    }
-
-    @Transactional
-    public  Page<Product> getProductDescSort(){
-        Pageable pageable = PageRequest.of(0,5, Sort.by("price").descending());
-        return productRepo.findAll(pageable);
+    public Page<Product> getProductByPrice(Double startPrice, Double endPrice, int pageNum, int pageSize) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+        Page<Product> products = productRepo.findProductsByPriceBetween(startPrice, endPrice, PageRequest.of(pageNum - 1, pageSize));
+        return products;
     }
 
     @Transactional
-    public  Page<Product> getProductAscSort(){
-        Pageable pageable = PageRequest.of(0,5, Sort.by("price").ascending());
-        return productRepo.findAll(pageable);
-    }
-
-    @Transactional
-    public Product createProduct(Product product){
+    public Product createOrSaveProduct(Product product) {
         return productRepo.save(product);
     }
 
     @Transactional
-    public void removeProduct(Long id){
+    public void removeProduct(Long id) {
         productRepo.deleteById(id);
     }
 }
