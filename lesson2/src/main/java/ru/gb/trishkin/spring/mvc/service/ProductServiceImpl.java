@@ -9,12 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.gb.trishkin.spring.mvc.domain.Product;
 import ru.gb.trishkin.spring.mvc.repository.ProductRepo;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl {
     private ProductRepo productRepo;
 
     public ProductServiceImpl(ProductRepo productRepo) {
         this.productRepo = productRepo;
+    }
+
+    public List<Product> findAll(){
+        return productRepo.findAll();
     }
 
     @Transactional(readOnly = true)
@@ -39,5 +45,9 @@ public class ProductServiceImpl {
     @Transactional
     public void removeProduct(Long id) {
         productRepo.deleteById(id);
+    }
+
+    public boolean existProduct(Long id){
+        return productRepo.existsById(id);
     }
 }

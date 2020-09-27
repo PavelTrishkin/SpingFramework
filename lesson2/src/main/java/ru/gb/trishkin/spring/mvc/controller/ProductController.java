@@ -40,6 +40,14 @@ public class ProductController {
         return "product";
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String getById(Model model,@PathVariable("id") Long id){
+        Product byId = productService.findById(id);
+        model.addAttribute("product",
+                byId == null ? new Product(): byId);
+        return "product-info";
+    }
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         System.out.println(productService.findById(id).getTitle());
