@@ -31,7 +31,7 @@
             <td>Id</td>
             <td>Название</td>
             <td>Цена</td>
-            <td sec:authorize="hasAuthority('ADMIN')">Операции</td>
+            <td sec:authorize="hasAuthority('ADMIN') or hasAuthority('MANAGER') or hasAuthority('SUPER_ADMIN')">Операции</td>
         </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
             <td th:text="${p.id}"></td>
             <td th:text="${p.title}"></td>
             <td th:text="${p.price}"></td>
-            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/products/edit/' + ${p.id}}">Редактировать</a>
+            <td sec:authorize="hasAuthority('ADMIN') or hasAuthority('MANAGER') or hasAuthority('SUPER_ADMIN')"><a th:href="@{'/products/edit/' + ${p.id}}">Редактировать</a>
                 <a>/</a>
                 <a>Удалить</a>
             </td>
