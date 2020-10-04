@@ -1,3 +1,10 @@
 server:
-  servlet:
-    context-path: /market
+  port: 8080
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/marketdb?serverTimezone=UTC
+    username: root
+    password: root
