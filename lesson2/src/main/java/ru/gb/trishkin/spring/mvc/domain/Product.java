@@ -1,7 +1,6 @@
 package ru.gb.trishkin.spring.mvc.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Product {

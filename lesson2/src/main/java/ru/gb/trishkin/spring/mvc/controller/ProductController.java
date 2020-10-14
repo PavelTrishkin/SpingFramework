@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.trishkin.spring.mvc.domain.Product;
+import ru.gb.trishkin.spring.mvc.exceptions.ProductNotFoundException;
 import ru.gb.trishkin.spring.mvc.service.ProductServiceImpl;
 import ru.gb.trishkin.spring.mvc.utils.ProductFilter;
 
